@@ -3,28 +3,50 @@ title: "Leadey API"
 description: "Programmatic access to signal-driven lead generation — source, qualify, and reach the right people, automatically."
 ---
 
-The Leadey API gives you programmatic access to the lead infrastructure behind the product — the same engine that sources accounts, enriches contacts, detects buying signals, and runs multi-channel outreach across LinkedIn, email, and cold calling.
+The Leadey API gives you programmatic access to your workspace — the leads, companies, contacts, and campaigns behind the product. Pull qualified leads into your own systems, sync your pipeline, and build on top of the same engine that powers the Cockpit.
 
-Use it to pull qualified leads into your own systems, react to signals as they fire, and launch outreach from your own workflows — without leaving your stack.
+The API is a REST API over HTTPS. It returns JSON, uses standard HTTP status codes, and is authenticated with an API key scoped to your organization.
 
 <Tip>
-  New to the API? Start with the [Quickstart](/quickstart) — you'll authenticate and make your first request in a few minutes.
+  New to the API? The [Quickstart](/quickstart) takes you from zero to your first authenticated request in a few minutes.
 </Tip>
+
+## Get started
 
 <CardGroup cols={2}>
   <Card title="Quickstart" icon="rocket" href="/quickstart">
-    Get an API key and make your first authenticated request.
+    Create a key and make your first request.
   </Card>
 
-  <Card title="Authentication" icon="key" href="/quickstart#authenticate">
-    Authenticate every request with a Bearer token from your dashboard.
+  <Card title="Authentication" icon="key" href="/guides/authentication">
+    How API keys work and how to send them.
   </Card>
 
-  <Card title="Open the dashboard" icon="gauge" href="https://app.leadey.ai">
-    Manage API keys, channels, and credits in the Leadey Cockpit.
+  <Card title="API reference" icon="code" href="/api-reference/account/get-current-organization">
+    Every endpoint, with an interactive playground.
   </Card>
 
-  <Card title="Leadey" icon="globe" href="https://leadey.ai">
-    Transforming lead generation through intelligent systems.
+  <Card title="Webhooks" icon="webhook" href="/guides/webhooks">
+    Push leads into Leadey from external tools.
+  </Card>
+</CardGroup>
+
+## Core concepts
+
+<CardGroup cols={2}>
+  <Card title="Signals" icon="radar" href="/guides/signals">
+    The buying-intent data points that drive outreach.
+  </Card>
+
+  <Card title="Campaigns" icon="git-fork" href="/guides/campaigns">
+    Multi-step, multi-channel outreach sequences.
+  </Card>
+
+  <Card title="ICPs" icon="crosshair" href="/guides/icps">
+    The targeting criteria that tell Leadey who to find.
+  </Card>
+
+  <Card title="Credits" icon="coins" href="/guides/credits">
+    The prepaid balance that powers enrichment.
   </Card>
 </CardGroup>

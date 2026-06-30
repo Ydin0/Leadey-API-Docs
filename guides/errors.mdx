@@ -1,0 +1,47 @@
+---
+title: "Errors"
+description: "The error response shape and the status codes the Leadey API returns."
+---
+
+The Leadey API uses conventional HTTP status codes. A `2xx` means success, a `4xx` means the request was rejected (and usually tells you how to fix it), and a `5xx` means something went wrong on our side.
+
+## Error shape
+
+Every error returns the same JSON envelope:
+
+```json
+{
+  "error": {
+    "message": "A human-readable description of what went wrong.",
+    "details": null
+  }
+}
+```
+
+- `message` — a clear, actionable description.
+- `details` — optional structured context (an object, array, or string), or `null`.
+
+## Status codes
+
+| Status | Meaning | What to do |
+| --- | --- | --- |
+| `200` | Success | — |
+| `201` | Created | The resource was created. |
+| `400` | Bad request | A parameter is missing or invalid. Check `message`. |
+| `401` | Unauthorized | The API key is missing, malformed, or revoked. See [Authentication](/guides/authentication). |
+| `402` | Payment required | Your credit balance is too low for the action. Top up in [Settings → Credits](https://app.leadey.ai). See [Credits](/guides/credits). |
+| `403` | Forbidden | The key isn't permitted to access this resource. |
+| `404` | Not found | The resource doesn't exist, or isn't in your workspace. |
+| `429` | Rate limited | You've exceeded the request limit. See [Rate limits](/guides/rate-limits). |
+| `5xx` | Server error | A problem on our side. Retry with backoff; if it persists, contact support. |
+
+## Handling errors
+
+Check the status code first, then read `error.message`. Retry only idempotent `GET` requests on `429` and `5xx`, using exponential backoff. Never blindly retry `4xx` responses other than `429` — the request needs to change first.
+
+```python
+resp = requests.get(url, headers=headers)
+if not resp.ok:
+    err = resp.json().get("error", {})
+    raise RuntimeError(f"{resp.status_code}: {err.get('message')}")
+```

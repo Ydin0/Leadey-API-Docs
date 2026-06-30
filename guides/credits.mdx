@@ -1,0 +1,46 @@
+---
+title: "Credits"
+description: "The prepaid balance that powers enrichment and discovery."
+---
+
+**Credits** are Leadey's prepaid usage currency. Actions that draw on external data — finding a contact's email or phone number, scraping a job signal — consume credits from your workspace's balance.
+
+## What consumes credits
+
+Credits are spent when Leadey does paid work on your behalf, for example:
+
+- **Phone enrichment** — finding a verified phone number for a contact.
+- **Email enrichment** — finding a verified email address.
+- **Job scraping** — pulling a hiring signal.
+
+Reading data you already have through the API — leads, companies, contacts, campaigns — does **not** cost credits.
+
+## Checking your balance
+
+Your current balance is on every [`GET /v1/me`](/api-reference/account/get-current-organization) response:
+
+```json
+{
+  "data": {
+    "credits": { "balance": 2840, "included": 10000, "used": 7160 }
+  }
+}
+```
+
+- `balance` — spendable credits remaining.
+- `included` — credits granted by your plan.
+- `used` — credits consumed this period.
+
+## Running out
+
+If an action would cost more than your balance, the API returns `402 Payment required`:
+
+```json
+{ "error": { "message": "Insufficient credits", "details": null } }
+```
+
+Top up or upgrade in [Settings → Credits](https://app.leadey.ai). To avoid surprises, check `balance` before kicking off large enrichment jobs, and watch for the 80% and 95% usage warnings in the Cockpit.
+
+<Tip>
+  Polling `GET /v1/me` is a cheap way to monitor credit health from your own systems — it doesn't consume credits.
+</Tip>

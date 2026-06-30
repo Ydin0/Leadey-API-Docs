@@ -1,0 +1,45 @@
+---
+title: "Rate limits"
+description: "Request limits on the Leadey API and how to handle them."
+---
+
+The Leadey API rate-limits requests per API key to keep the platform fast and fair.
+
+## The limit
+
+Each key may make up to **120 requests per minute**. The window is rolling per key, so spreading work across multiple keys raises your total throughput proportionally.
+
+When you exceed the limit, the API returns `429 Too Many Requests` with a `Retry-After` header (seconds until the window resets):
+
+```http
+HTTP/1.1 429 Too Many Requests
+Retry-After: 42
+```
+
+```json
+{ "error": { "message": "Rate limit exceeded. Retry in 42s.", "details": null } }
+```
+
+## Staying under the limit
+
+- **Respect `Retry-After`.** On a `429`, wait the number of seconds it specifies before retrying.
+- **Back off exponentially** on repeated `429` or `5xx` responses.
+- **Page efficiently.** Use `pageSize=100` and filters so you fetch fewer pages — see [Pagination](/guides/pagination).
+- **Cache** responses that don't change often rather than re-fetching them in a loop.
+
+```python
+import time, requests
+
+def get_with_retry(url, headers, params=None, max_attempts=5):
+    for attempt in range(max_attempts):
+        r = requests.get(url, headers=headers, params=params)
+        if r.status_code != 429:
+            return r
+        wait = int(r.headers.get("Retry-After", 2 ** attempt))
+        time.sleep(wait)
+    return r
+```
+
+<Note>
+  Need a higher limit for a high-volume integration? Contact [support@leadey.ai](mailto:support@leadey.ai).
+</Note>

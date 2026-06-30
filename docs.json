@@ -25,14 +25,56 @@
   "styling": {
     "codeblocks": "dark"
   },
+  "api": {
+    "playground": {
+      "display": "interactive",
+      "proxy": true
+    },
+    "examples": {
+      "languages": ["curl", "python", "javascript"]
+    }
+  },
   "navigation": {
-    "pages": [
+    "tabs": [
       {
-        "group": "Getting Started",
-        "pages": [
-          "index",
-          "quickstart"
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": [
+              "index",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Core concepts",
+            "pages": [
+              "guides/signals",
+              "guides/icps",
+              "guides/campaigns",
+              "guides/credits"
+            ]
+          },
+          {
+            "group": "Using the API",
+            "pages": [
+              "guides/authentication",
+              "guides/errors",
+              "guides/pagination",
+              "guides/rate-limits"
+            ]
+          },
+          {
+            "group": "Webhooks",
+            "pages": [
+              "guides/webhooks"
+            ]
+          }
         ]
+      },
+      {
+        "tab": "API Reference",
+        "openapi": "openapi.json"
       }
     ],
     "global": {

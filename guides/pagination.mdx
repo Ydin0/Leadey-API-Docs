@@ -1,0 +1,62 @@
+---
+title: "Pagination"
+description: "Page through large result sets with page and pageSize."
+---
+
+List endpoints return results in pages. Every list response has the same shape: a `data` array and a `meta` object describing the page.
+
+## Parameters
+
+| Parameter | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `page` | integer | `1` | The 1-based page number. |
+| `pageSize` | integer | `25` | Items per page. Maximum `100`. |
+
+```bash
+curl "https://api.leadey.ai/v1/leads?page=2&pageSize=50" \
+  -H "Authorization: Bearer $LEADEY_API_KEY"
+```
+
+## Response shape
+
+```json
+{
+  "data": [ /* … up to pageSize items … */ ],
+  "meta": {
+    "page": 2,
+    "pageSize": 50,
+    "totalCount": 134,
+    "totalPages": 3
+  }
+}
+```
+
+- `totalCount` — total items matching the query across all pages.
+- `totalPages` — `ceil(totalCount / pageSize)`. You've reached the end when `page >= totalPages`.
+
+## Iterating every page
+
+Request pages until you've seen `totalPages`:
+
+```python
+import os, requests
+
+headers = {"Authorization": f"Bearer {os.environ['LEADEY_API_KEY']}"}
+page, leads = 1, []
+while True:
+    r = requests.get(
+        "https://api.leadey.ai/v1/leads",
+        headers=headers,
+        params={"page": page, "pageSize": 100},
+    ).json()
+    leads.extend(r["data"])
+    if page >= r["meta"]["totalPages"]:
+        break
+    page += 1
+
+print(f"Fetched {len(leads)} leads")
+```
+
+<Tip>
+  Use the largest `pageSize` (100) to minimise round trips, and combine it with filters like `search`, `status`, or `campaignId` to narrow results before paging.
+</Tip>

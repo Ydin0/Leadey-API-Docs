@@ -1,0 +1,55 @@
+---
+title: "Webhooks"
+description: "Push leads into a Leadey campaign from external tools and forms."
+---
+
+Webhooks let external tools — Zapier, n8n, Make, webinar platforms, ad forms, or your own scripts — send leads straight into a Leadey campaign as they're captured. This is the inbound counterpart to the read API.
+
+## How it works
+
+Each campaign can expose a unique, secret webhook URL. Posting a lead payload to that URL adds the lead to the campaign and starts it through the sequence.
+
+<Steps>
+  <Step title="Enable the webhook on a campaign">
+    Open the campaign in the Cockpit, turn on **Inbound webhook**, and copy the generated URL. It embeds a secret token unique to that campaign:
+
+    ```
+    https://api.leadey.ai/webhooks/funnels/{campaignId}/leads?token={webhookToken}
+    ```
+  </Step>
+
+  <Step title="Map your fields">
+    In the campaign's webhook settings, map your payload keys to Leadey lead fields (`email`, `firstName`, `lastName`, `company`, `title`, `phone`, `linkedinUrl`, or a custom field). Unmapped keys are ignored.
+  </Step>
+
+  <Step title="Post a lead">
+    Send a JSON body with the mapped fields:
+
+    ```bash
+    curl -X POST \
+      "https://api.leadey.ai/webhooks/funnels/{campaignId}/leads?token={webhookToken}" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "email": "jordan@northwind.com",
+        "firstName": "Jordan",
+        "lastName": "Lee",
+        "company": "Northwind",
+        "title": "VP Engineering"
+      }'
+    ```
+  </Step>
+</Steps>
+
+## Authentication
+
+The webhook is authenticated by the `token` query parameter — it is not an API key, and it's scoped to a single campaign. Treat the URL as a secret: anyone with it can add leads to that campaign. If it leaks, rotate it by regenerating the webhook in the campaign settings.
+
+## Behaviour
+
+- Leads are de-duplicated within the campaign by email (then name + company when there's no email).
+- The endpoint returns `200` quickly and ingests asynchronously, so retries and bursts won't cause duplicate processing.
+- Leads added by webhook are tagged with a **Webhook** source, so you can filter and report on them — including via `GET /v1/leads?source=...`.
+
+<Tip>
+  Building a no-code flow? In Zapier or Make, use a "Webhooks → POST" action pointed at the campaign URL, and map your trigger's fields to the JSON body above.
+</Tip>

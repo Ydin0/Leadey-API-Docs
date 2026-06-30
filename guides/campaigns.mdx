@@ -1,0 +1,33 @@
+---
+title: "Campaigns"
+description: "Multi-step, multi-channel outreach sequences."
+---
+
+A **campaign** is a multi-step, multi-channel outreach sequence — the engine that turns a list of leads into booked conversations. Campaigns run across email, LinkedIn, and cold calling, with each step timed over a sequence of days.
+
+## What a campaign contains
+
+- **Steps** — an ordered sequence of touches, each on a channel (email, LinkedIn, or call) with a delay before it runs.
+- **Leads** — the people moving through the steps. Leads enter from signals, CSV import, the [webhook](/guides/webhooks), or by being added from your lead database.
+- **Status** — `draft` while you build it, `active` once it's running, `paused` when you stop sends, `completed` when everyone has finished.
+
+## Lifecycle
+
+1. Create a campaign and define its steps in the Cockpit.
+2. Add leads — from [signals](/guides/signals), an import, or the inbound [webhook](/guides/webhooks).
+3. Activate it. Leads progress through the steps; replies surface in the inbox.
+4. Monitor performance and refine the sequence.
+
+## Campaigns and the API
+
+Read campaigns and the leads inside them through the API:
+
+- List campaigns: [`GET /v1/campaigns`](/api-reference/campaigns/list-campaigns)
+- Get one campaign: [`GET /v1/campaigns/{id}`](/api-reference/campaigns/get-a-campaign)
+- List a campaign's leads: [`GET /v1/leads?campaignId={id}`](/api-reference/leads/list-leads)
+
+To add leads to a campaign programmatically today, use its inbound [webhook](/guides/webhooks).
+
+<Note>
+  "Campaign" is the product term for what's called a *funnel* in some internal contexts — they're the same thing. The API uses **campaign** everywhere.
+</Note>

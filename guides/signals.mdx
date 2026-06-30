@@ -1,0 +1,33 @@
+---
+title: "Signals"
+description: "The buying-intent data points that drive Leadey outreach."
+---
+
+A **signal** is a data point that indicates buying intent — a hiring surge, a funding round, a tech-stack change, or a relevant social mention. Signals are the heart of Leadey: they tell you not just *who* to reach, but *why now*.
+
+## Where signals come from
+
+Leadey watches external sources — job boards, funding databases, and social platforms — for activity that matches your [ICPs](/guides/icps). When it finds something relevant, it records a signal against the company it relates to.
+
+Each signal carries:
+
+- **Type** — for example `hiring`, `funding`, `tech_change`, or `social_mention`.
+- **Source** — where it was detected (a job board, a funding feed, a social platform).
+- **Relevance score** — a 0–100 measure of how well it matches your targeting.
+- **Company** — the business it relates to. Companies accumulate signals over time, building a picture of momentum.
+
+## How signals drive outreach
+
+1. A signal fires for a company that matches your ICP.
+2. Leadey discovers and enriches the right contacts at that company (drawing on [credits](/guides/credits)).
+3. Those contacts enter a [campaign](/guides/campaigns) — and the signal becomes the reason for the first message ("Saw you're hiring three SDRs…").
+
+Signals keep outreach timely and specific instead of generic and cold.
+
+## Working with signals via the API
+
+Signal-derived leads surface through the read API today: list them with [`GET /v1/leads`](/api-reference/leads/list-leads) and inspect the companies they relate to with [`GET /v1/companies`](/api-reference/companies/list-companies). A dedicated signals endpoint is on the roadmap.
+
+<Note>
+  ICPs and signal sources are configured in the Cockpit. The API is read-and-ingest today — see [Campaigns](/guides/campaigns) and [Webhooks](/guides/webhooks) for the write paths that exist now.
+</Note>

@@ -3,56 +3,104 @@ title: "Quickstart"
 description: "Authenticate and make your first Leadey API request in a few minutes."
 ---
 
-This guide takes you from zero to your first authenticated request — fetching leads from your workspace. By the end you'll have a working API key and a request you can build on.
+This guide takes you from zero to your first authenticated request — reading your organization, then listing leads from your workspace.
 
 ## Prerequisites
 
 Before you begin, you need:
 
 - A Leadey account. Sign up at [app.leadey.ai](https://app.leadey.ai) — new workspaces start on a 60-day free trial.
-- An API key from your dashboard. Generate one under **Settings → API keys**.
+- An API key (created in the next step).
 - A terminal with `curl`, or any HTTP client.
 
 ## Get started
 
 <Steps>
-  <Step title="Create your API key" id="create-key">
-    In the Cockpit, open **Settings → API keys** and select **Create key**. Copy the key and store it somewhere safe — it's shown only once.
+  <Step title="Create an API key">
+    In the Cockpit, open **Settings → API Keys** and select **Create key**. Give it a name, then copy the key — it starts with `leadey_sk_live_` and is shown only once.
 
-    Treat your key like a password. It carries the permissions of your workspace, so never commit it to source control or expose it in client-side code.
+    Store it somewhere safe. It carries the access of your workspace, so never commit it to source control or expose it in client-side code. If a key leaks, revoke it from the same screen.
   </Step>
 
-  <Step title="Authenticate" id="authenticate">
+  <Step title="Authenticate">
     Every request authenticates with your key as a Bearer token in the `Authorization` header.
 
     ```bash
-    export LEADEY_API_KEY="sk_live_your_key_here"
+    export LEADEY_API_KEY="leadey_sk_live_your_key_here"
     ```
+
+    Confirm it works by reading your organization:
 
     ```bash
     curl https://api.leadey.ai/v1/me \
       -H "Authorization: Bearer $LEADEY_API_KEY"
     ```
 
-    A `200` response confirms your key is valid and returns your workspace details.
+    A `200` response returns your organization, plan, and credit balance:
+
+    ```json
+    {
+      "data": {
+        "id": "org_123",
+        "name": "Acme Inc",
+        "plan": "growth",
+        "planStatus": "active",
+        "credits": { "balance": 2840, "included": 10000, "used": 7160 },
+        "createdAt": "2026-01-04T10:30:00.000Z"
+      }
+    }
+    ```
   </Step>
 
-  <Step title="Make your first request" id="first-request">
-    Fetch the most recent leads in your workspace.
+  <Step title="List your leads">
+    Now fetch a page of leads. Responses are paginated — pass `page` and `pageSize` (max 100).
 
     ```bash
-    curl https://api.leadey.ai/v1/leads?limit=10 \
+    curl "https://api.leadey.ai/v1/leads?pageSize=5" \
       -H "Authorization: Bearer $LEADEY_API_KEY"
     ```
 
-    The response is a JSON list of lead records — company, contact, and the buying signals that surfaced each one. Page through results with the `limit` and `cursor` parameters.
+    The response is a `data` array plus a `meta` object describing the page:
+
+    ```json
+    {
+      "data": [
+        {
+          "id": "lead_456",
+          "name": "Jordan Lee",
+          "title": "VP Engineering",
+          "company": "Northwind",
+          "email": "jordan@northwind.com",
+          "status": "pending",
+          "score": 78,
+          "campaignId": "funnel_789",
+          "campaignName": "Q3 — Hiring surge",
+          "createdAt": "2026-06-12T14:22:00.000Z"
+        }
+      ],
+      "meta": { "page": 1, "pageSize": 5, "totalCount": 134, "totalPages": 27 }
+    }
+    ```
   </Step>
 </Steps>
 
-<Tip>
-  Need help? Reach the team at [support@leadey.ai](mailto:support@leadey.ai), or manage your keys and credits anytime in the [dashboard](https://app.leadey.ai).
-</Tip>
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Explore the API" icon="code" href="/api-reference/account/get-current-organization">
+    Browse every endpoint and try requests in the playground.
+  </Card>
+  <Card title="Authentication" icon="key" href="/guides/authentication">
+    Key formats, rotation, and security.
+  </Card>
+  <Card title="Pagination" icon="list" href="/guides/pagination">
+    Page through large result sets.
+  </Card>
+  <Card title="Errors" icon="triangle-alert" href="/guides/errors">
+    Status codes and the error shape.
+  </Card>
+</CardGroup>
 
 <Note>
-  Endpoint paths and request shapes above illustrate the authentication flow. Confirm the exact routes for your workspace in the dashboard before going to production.
+  Need help? Reach the team at [support@leadey.ai](mailto:support@leadey.ai), or manage keys and credits anytime in the [dashboard](https://app.leadey.ai).
 </Note>

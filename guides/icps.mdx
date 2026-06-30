@@ -1,0 +1,25 @@
+---
+title: "ICPs"
+description: "Ideal Customer Profiles — the targeting criteria that tell Leadey who to find."
+---
+
+An **ICP** (Ideal Customer Profile) is the targeting configuration that tells Leadey's signal engine what to look for. It's the difference between watching the whole market and watching *your* market.
+
+## What an ICP defines
+
+- **Who** — company filters such as industry, size, location, and funding stage.
+- **What to watch** — which [signals](/guides/signals) matter (for example, hiring for specific roles, or recent funding).
+- **Why it's a fit** — a value proposition that informs how outreach is framed.
+- **How often** — the schedule on which Leadey scans sources, and the thresholds that decide when a match is worth surfacing.
+
+## How ICPs fit the workflow
+
+> Define your audience → connect your channels → launch your outreach.
+
+ICPs are the "define your audience" step. Once an ICP is live, matching companies and their signals flow into your workspace, ready to be enriched into contacts and added to [campaigns](/guides/campaigns).
+
+A workspace can run several ICPs at once — for example, one per product line or per region — and compare which produces the strongest pipeline.
+
+## ICPs and the API
+
+ICPs are created and tuned in the Cockpit. Their output is what you read through the API: the companies and contacts an ICP surfaces are available via [`GET /v1/companies`](/api-reference/companies/list-companies) and [`GET /v1/contacts`](/api-reference/contacts/list-contacts), and the leads that result appear in [`GET /v1/leads`](/api-reference/leads/list-leads).

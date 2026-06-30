@@ -6,7 +6,7 @@
     "description": "Programmatic access to your Leadey workspace — leads, companies, contacts, and campaigns. All endpoints are authenticated with an API key and scoped to the key's organization."
   },
   "servers": [
-    { "url": "https://api.leadey.ai/v1", "description": "Production" },
+    { "url": "https://backend.leadey.ai/v1", "description": "Production" },
     { "url": "http://localhost:3001/v1", "description": "Local development" }
   ],
   "security": [{ "bearerAuth": [] }],

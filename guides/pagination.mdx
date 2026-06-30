@@ -13,7 +13,7 @@ List endpoints return results in pages. Every list response has the same shape: 
 | `pageSize` | integer | `25` | Items per page. Maximum `100`. |
 
 ```bash
-curl "https://api.leadey.ai/v1/leads?page=2&pageSize=50" \
+curl "https://backend.leadey.ai/v1/leads?page=2&pageSize=50" \
   -H "Authorization: Bearer $LEADEY_API_KEY"
 ```
 
@@ -45,7 +45,7 @@ headers = {"Authorization": f"Bearer {os.environ['LEADEY_API_KEY']}"}
 page, leads = 1, []
 while True:
     r = requests.get(
-        "https://api.leadey.ai/v1/leads",
+        "https://backend.leadey.ai/v1/leads",
         headers=headers,
         params={"page": page, "pageSize": 100},
     ).json()

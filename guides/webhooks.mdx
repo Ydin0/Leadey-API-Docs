@@ -14,7 +14,7 @@ Each campaign can expose a unique, secret webhook URL. Posting a lead payload to
     Open the campaign in the Cockpit, turn on **Inbound webhook**, and copy the generated URL. It embeds a secret token unique to that campaign:
 
     ```
-    https://api.leadey.ai/webhooks/funnels/{campaignId}/leads?token={webhookToken}
+    https://backend.leadey.ai/webhooks/funnels/{campaignId}/leads?token={webhookToken}
     ```
   </Step>
 
@@ -27,7 +27,7 @@ Each campaign can expose a unique, secret webhook URL. Posting a lead payload to
 
     ```bash
     curl -X POST \
-      "https://api.leadey.ai/webhooks/funnels/{campaignId}/leads?token={webhookToken}" \
+      "https://backend.leadey.ai/webhooks/funnels/{campaignId}/leads?token={webhookToken}" \
       -H "Content-Type: application/json" \
       -d '{
         "email": "jordan@northwind.com",

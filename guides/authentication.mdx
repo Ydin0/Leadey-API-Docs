@@ -23,7 +23,7 @@ Send the key as a Bearer token in the `Authorization` header on every request.
 
 <CodeGroup>
 ```bash curl
-curl https://api.leadey.ai/v1/me \
+curl https://backend.leadey.ai/v1/me \
   -H "Authorization: Bearer $LEADEY_API_KEY"
 ```
 
@@ -31,7 +31,7 @@ curl https://api.leadey.ai/v1/me \
 import os, requests
 
 resp = requests.get(
-    "https://api.leadey.ai/v1/me",
+    "https://backend.leadey.ai/v1/me",
     headers={"Authorization": f"Bearer {os.environ['LEADEY_API_KEY']}"},
 )
 resp.raise_for_status()
@@ -39,7 +39,7 @@ print(resp.json()["data"])
 ```
 
 ```javascript javascript
-const resp = await fetch("https://api.leadey.ai/v1/me", {
+const resp = await fetch("https://backend.leadey.ai/v1/me", {
   headers: { Authorization: `Bearer ${process.env.LEADEY_API_KEY}` },
 });
 const { data } = await resp.json();
@@ -69,5 +69,5 @@ A request with a missing, malformed, or revoked key returns `401`:
 All endpoints are served under the versioned base URL:
 
 ```
-https://api.leadey.ai/v1
+https://backend.leadey.ai/v1
 ```

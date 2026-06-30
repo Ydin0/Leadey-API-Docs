@@ -1,0 +1,162 @@
+/* ============================================================================
+   LEADEY — Documentation theme overrides
+   ----------------------------------------------------------------------------
+   Brings the production Leadey identity to the Mintlify docs: a dark-canonical,
+   cinematic midnight-navy canvas lit by a periwinkle glow, DM Sans with the
+   product's stylistic sets, 14px cards, and pill CTAs.
+
+   Tokens lifted verbatim from the Leadey Design System (colors_and_type.css),
+   which mirrors the live app (app/globals.css). docs.json already sets the
+   palette, fonts, background colors and dark default — this file adds the
+   atmosphere and shape language docs.json can't express.
+   ========================================================================== */
+
+/* ----------------------------------------------------------------------------
+   1. Brand tokens (raw palette + semantic, dark canonical)
+   ---------------------------------------------------------------------------- */
+:root {
+  --leadey-midnight-navy: #0C1122;
+  --leadey-backdrop:      #0A0E1F;
+  --leadey-deep-navy:     #192039;
+  --leadey-card-navy:     #141A30;
+  --leadey-mid-navy:      #242E55;
+  --leadey-lift-navy:     #2E3964;
+
+  --leadey-periwinkle:        #97A4D6;
+  --leadey-periwinkle-light:  #C8CFE6;
+  --leadey-periwinkle-dim:    #6B7299;
+  --leadey-periwinkle-deep:   #4A5478;
+
+  --leadey-white: #FFFFFF;
+  --leadey-cool-white: #F4F5F9;
+
+  /* Signature shape language */
+  --leadey-radius-card: 14px;
+  --leadey-radius-pill: 9999px;
+
+  /* Dark (canonical) semantic surfaces + text */
+  --leadey-fg1: #FFFFFF;
+  --leadey-fg2: #C8CFE6;
+  --leadey-fg-muted: #97A4D6;
+  --leadey-fg-faint: #6B7299;
+  --leadey-border-subtle: rgba(255, 255, 255, 0.06);
+  --leadey-border-default: rgba(255, 255, 255, 0.12);
+  --leadey-shadow-card:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 24px 60px -20px rgba(0, 0, 0, 0.5);
+}
+
+/* ----------------------------------------------------------------------------
+   2. Type — DM Sans with the product's stylistic sets
+   ---------------------------------------------------------------------------- */
+body {
+  font-feature-settings: "cv11", "ss01", "ss03";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+}
+
+/* ----------------------------------------------------------------------------
+   3. Cinematic backdrop — layered periwinkle radials over midnight navy.
+   Mintlify toggles dark mode via `.dark` on <html> (with `data-theme`/
+   `[class~="dark"]` as fallbacks). Target all so the horizon glow renders
+   regardless of which selector the active theme build uses.
+   ---------------------------------------------------------------------------- */
+html.dark,
+html[data-theme="dark"],
+.dark body,
+html[data-theme="dark"] body {
+  background-color: #0A0E1F;
+  background-image:
+    radial-gradient(60% 40% at 50% 8%,  rgba(151, 164, 214, 0.12) 0%, rgba(151, 164, 214, 0) 60%),
+    radial-gradient(70% 55% at 100% 0%, rgba(74, 84, 120, 0.28) 0%, rgba(74, 84, 120, 0) 65%),
+    radial-gradient(55% 50% at 0% 100%, rgba(151, 164, 214, 0.10) 0%, rgba(151, 164, 214, 0) 60%),
+    linear-gradient(180deg, #0A0E1F 0%, #0C1122 50%, #0A0E1F 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+/* Light mode — clean cool-white canvas (inverted, secondary experience). */
+html:not(.dark):not([data-theme="dark"]) body {
+  background-color: #F4F5F9;
+}
+
+/* ----------------------------------------------------------------------------
+   4. Cards — signature 14px radius + soft elevation (dark).
+   Mintlify Card components carry varied class names across themes; target the
+   common shapes plus a brand utility class usable from MDX.
+   ---------------------------------------------------------------------------- */
+.card,
+[class*="card"],
+.leadey-card {
+  border-radius: var(--leadey-radius-card);
+}
+
+html.dark .card,
+html.dark [class*="card"],
+html.dark .leadey-card {
+  box-shadow: var(--leadey-shadow-card);
+  border-color: var(--leadey-border-subtle);
+}
+
+/* ----------------------------------------------------------------------------
+   5. Pill CTAs — every primary button / nav CTA is fully rounded.
+   ---------------------------------------------------------------------------- */
+a[class*="primary"],
+button[class*="primary"],
+.btn-primary,
+[class*="Button"][class*="primary"] {
+  border-radius: var(--leadey-radius-pill) !important;
+}
+
+/* ----------------------------------------------------------------------------
+   6. Periwinkle accents — inline code + links in dark mode.
+   ---------------------------------------------------------------------------- */
+html.dark :not(pre) > code {
+  background: rgba(151, 164, 214, 0.12);
+  color: var(--leadey-periwinkle-light);
+  border: 1px solid var(--leadey-border-subtle);
+  border-radius: 6px;
+}
+
+html.dark a:not([class]) {
+  color: var(--leadey-periwinkle);
+  text-underline-offset: 2px;
+}
+html.dark a:not([class]):hover {
+  color: var(--leadey-periwinkle-light);
+}
+
+/* Low-contrast hairline borders in dark, per brand. */
+html.dark hr,
+html.dark table,
+html.dark th,
+html.dark td {
+  border-color: var(--leadey-border-subtle);
+}
+
+/* ----------------------------------------------------------------------------
+   7. Callouts — the brand forbids green accents (style guide §4.3). Mintlify's
+   <Tip> renders as `.callout` with Tailwind green utility classes; recolor those
+   to the periwinkle signal treatment so callouts stay in the navy/periwinkle
+   world. Notes (blue) and warnings (red/amber) already map to the brand.
+   ---------------------------------------------------------------------------- */
+.callout[class*="green"] {
+  background-color: rgba(151, 164, 214, 0.12) !important;
+  border-color: rgba(151, 164, 214, 0.28) !important;
+}
+.callout[class*="green"] [data-component-part="callout-icon"],
+.callout[class*="green"] [data-component-part="callout-icon"] svg {
+  color: var(--leadey-periwinkle) !important;
+}
+.callout[class*="green"] [data-component-part="callout-content"],
+.callout[class*="green"] [data-component-part="callout-content"] [data-as="p"] {
+  color: var(--leadey-periwinkle-deep) !important;
+}
+html.dark .callout[class*="green"] [data-component-part="callout-content"],
+html.dark .callout[class*="green"] [data-component-part="callout-content"] [data-as="p"] {
+  color: var(--leadey-periwinkle-light) !important;
+}
+.callout[class*="green"] a {
+  color: var(--leadey-periwinkle) !important;
+}

@@ -1,47 +1,58 @@
 ---
 title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+description: "Authenticate and make your first Leadey API request in a few minutes."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
-
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
+This guide takes you from zero to your first authenticated request — fetching leads from your workspace. By the end you'll have a working API key and a request you can build on.
 
 ## Prerequisites
 
-Before you begin, you must have:
+Before you begin, you need:
 
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
+- A Leadey account. Sign up at [app.leadey.ai](https://app.leadey.ai) — new workspaces start on a 60-day free trial.
+- An API key from your dashboard. Generate one under **Settings → API keys**.
+- A terminal with `curl`, or any HTTP client.
 
 ## Get started
 
 <Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
+  <Step title="Create your API key" id="create-key">
+    In the Cockpit, open **Settings → API keys** and select **Create key**. Copy the key and store it somewhere safe — it's shown only once.
 
-    ```bash
-    npm install your-package
-    ```
+    Treat your key like a password. It carries the permissions of your workspace, so never commit it to source control or expose it in client-side code.
   </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
+
+  <Step title="Authenticate" id="authenticate">
+    Every request authenticates with your key as a Bearer token in the `Authorization` header.
 
     ```bash
-    your-cli init
+    export LEADEY_API_KEY="sk_live_your_key_here"
     ```
+
+    ```bash
+    curl https://api.leadey.ai/v1/me \
+      -H "Authorization: Bearer $LEADEY_API_KEY"
+    ```
+
+    A `200` response confirms your key is valid and returns your workspace details.
   </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
+
+  <Step title="Make your first request" id="first-request">
+    Fetch the most recent leads in your workspace.
 
     ```bash
-    your-cli start
+    curl https://api.leadey.ai/v1/leads?limit=10 \
+      -H "Authorization: Bearer $LEADEY_API_KEY"
     ```
+
+    The response is a JSON list of lead records — company, contact, and the buying signals that surfaced each one. Page through results with the `limit` and `cursor` parameters.
   </Step>
 </Steps>
 
 <Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
-
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
+  Need help? Reach the team at [support@leadey.ai](mailto:support@leadey.ai), or manage your keys and credits anytime in the [dashboard](https://app.leadey.ai).
 </Tip>
+
+<Note>
+  Endpoint paths and request shapes above illustrate the authentication flow. Confirm the exact routes for your workspace in the dashboard before going to production.
+</Note>

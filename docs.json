@@ -1,13 +1,30 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mintlify Starter Kit",
+  "theme": "maple",
+  "name": "Leadey",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#4A5478",
+    "light": "#97A4D6",
+    "dark": "#242E55"
   },
   "favicon": "/favicon.svg",
+  "fonts": {
+    "family": "DM Sans"
+  },
+  "appearance": {
+    "default": "dark",
+    "strict": false
+  },
+  "background": {
+    "color": {
+      "light": "#F4F5F9",
+      "dark": "#0C1122"
+    },
+    "decoration": "gradient"
+  },
+  "styling": {
+    "codeblocks": "dark"
+  },
   "navigation": {
     "pages": [
       {
@@ -21,33 +38,33 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "Home",
+          "href": "https://leadey.ai",
+          "icon": "house"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Dashboard",
+          "href": "https://app.leadey.ai",
+          "icon": "gauge"
         }
       ]
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/logomark-color.svg",
+    "dark": "/logo/logomark-white.svg"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@leadey.ai"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.mintlify.com"
+      "label": "Open Dashboard",
+      "href": "https://app.leadey.ai"
     }
   },
   "contextual": {
@@ -64,9 +81,8 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/leadey",
+      "linkedin": "https://linkedin.com/company/leadey"
     }
   }
 }
